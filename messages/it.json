@@ -1,0 +1,186 @@
+{
+  "nav": {
+    "courses": "Corsi",
+    "about": "Chi siamo",
+    "contact": "Contatti",
+    "cta": "Esplora i Corsi"
+  },
+  "hero": {
+    "badge": "Formazione SAP Professionale",
+    "headline": "Trasforma il tuo team in esperti SAP",
+    "subheadline": "Percorsi formativi pratici e personalizzati, sviluppati da consulenti attivi con oltre 20 anni di esperienza nel mondo SAP.",
+    "cta_primary": "Scopri i Corsi",
+    "cta_secondary": "Contattaci"
+  },
+  "stats": {
+    "years": "anni di esperienza",
+    "projects": "progetti realizzati",
+    "countries": "paesi serviti",
+    "collaborators": "collaboratori"
+  },
+  "why": {
+    "title": "Perché scegliere TooSkill",
+    "subtitle": "Non la solita formazione. Corsi progettati da chi lavora ogni giorno con SAP in progetti reali.",
+    "items": [
+      {
+        "title": "100% Pratico",
+        "desc": "Niente teoria inutile. Ogni modulo è costruito attorno a casi d'uso reali e scenari aziendali concreti."
+      },
+      {
+        "title": "Docenti-Consulenti",
+        "desc": "I nostri formatori sono consulenti SAP attivi. Portano in aula l'esperienza di decine di progetti reali."
+      },
+      {
+        "title": "Su Misura",
+        "desc": "Analizziamo le esigenze della tua azienda e costruiamo il percorso formativo più adatto alla tua realtà."
+      },
+      {
+        "title": "Risultati Misurabili",
+        "desc": "Meno errori, processi più fluidi, team più autonomi. Ogni corso punta a obiettivi concreti e verificabili."
+      }
+    ]
+  },
+  "how": {
+    "title": "Come funziona",
+    "subtitle": "Un processo semplice, pensato per adattarsi alle tue esigenze senza complicazioni.",
+    "steps": [
+      {
+        "step": "01",
+        "title": "Analisi",
+        "desc": "Comprendiamo le tue esigenze, il livello attuale del team e gli obiettivi aziendali che vuoi raggiungere."
+      },
+      {
+        "step": "02",
+        "title": "Formazione",
+        "desc": "Eroghiamo il corso nel formato più adatto: in presenza, virtuale o blended. Con casi reali, non teoria."
+      },
+      {
+        "step": "03",
+        "title": "Risultati",
+        "desc": "Il tuo team opera con maggiore autonomia, efficienza e competenza su SAP fin dal primo giorno."
+      }
+    ]
+  },
+  "levels": {
+    "title": "I nostri percorsi",
+    "subtitle": "Quattro livelli di intensità per adattarsi a qualsiasi esigenza, da un aggiornamento rapido a una formazione completa.",
+    "items": [
+      {
+        "name": "Express",
+        "desc": "Aggiornamento rapido e mirato. Ideale per chi ha già una base e necessita di colmare lacune specifiche.",
+        "duration": "1–2 giorni"
+      },
+      {
+        "name": "Base",
+        "desc": "Il punto di partenza ideale per chi si avvicina per la prima volta al mondo SAP.",
+        "duration": "3–5 giorni"
+      },
+      {
+        "name": "Completa",
+        "desc": "Formazione approfondita per diventare esperti di uno o più moduli SAP.",
+        "duration": "2–4 settimane"
+      },
+      {
+        "name": "Personalizzata",
+        "desc": "Progettata interamente sulle esigenze specifiche della tua azienda e del tuo team.",
+        "duration": "Su richiesta"
+      }
+    ]
+  },
+  "featured": {
+    "title": "Corsi in evidenza",
+    "subtitle": "Scopri i percorsi formativi più richiesti dalle aziende.",
+    "cta": "Vedi tutti i corsi",
+    "request": "Richiedi info"
+  },
+  "cta_section": {
+    "title": "Pronto a potenziare il tuo team?",
+    "subtitle": "Parliamo delle tue esigenze. Ti proporremo il percorso formativo più adatto alla tua realtà aziendale, senza impegno.",
+    "button": "Contattaci ora"
+  },
+  "courses": {
+    "title": "Tutti i corsi",
+    "subtitle": "Formazione SAP pratica e personalizzata per ogni livello e modulo.",
+    "filter_module": "Modulo",
+    "filter_level": "Livello",
+    "all": "Tutti",
+    "duration": "Durata",
+    "hours": "ore",
+    "request_info": "Richiedi informazioni",
+    "no_results": "Nessun corso trovato con i filtri selezionati."
+  },
+  "course_detail": {
+    "objectives": "Obiettivi del corso",
+    "program": "Programma",
+    "prerequisites": "Prerequisiti",
+    "duration": "Durata",
+    "level": "Livello",
+    "module": "Modulo SAP",
+    "register": "Iscriviti o richiedi informazioni",
+    "related": "Corsi correlati"
+  },
+  "contact": {
+    "title": "Contattaci",
+    "subtitle": "Hai domande sui nostri corsi? Vuoi un programma su misura per la tua azienda? Scrivici, risponderemo entro 24 ore.",
+    "name": "Nome e Cognome",
+    "email": "Email aziendale",
+    "company": "Azienda",
+    "phone": "Telefono",
+    "message": "Messaggio",
+    "course": "Corso di interesse (opzionale)",
+    "submit": "Invia richiesta",
+    "success": "Grazie! Ti risponderemo entro 24 ore lavorative.",
+    "error": "Si è verificato un errore. Riprova o scrivi a info@tooskill.it"
+  },
+  "about": {
+    "title": "Chi siamo",
+    "subtitle": "TooSkill nasce dall'esperienza di Sigest per portare la formazione SAP a un livello superiore.",
+    "sigest_title": "Sigest — La nostra origine",
+    "sigest_desc": "Con oltre 20 anni di consulenza SAP e più di 100 progetti realizzati in 10+ paesi, Sigest è un punto di riferimento per la digital transformation basata su SAP. TooSkill è la naturale evoluzione di questa esperienza: formazione pratica, concreta, erogata da chi SAP lo usa ogni giorno sul campo.",
+    "values_title": "I nostri valori",
+    "values": [
+      {
+        "title": "Praticità",
+        "desc": "Ogni ora di formazione deve tradursi in valore operativo concreto per il tuo team."
+      },
+      {
+        "title": "Competenza",
+        "desc": "I nostri docenti sono professionisti SAP attivi, non solo insegnanti. Portano l'esperienza reale in aula."
+      },
+      {
+        "title": "Personalizzazione",
+        "desc": "Nessun corso standard: adattiamo tutto alla tua realtà aziendale, ai tuoi processi e al tuo team."
+      },
+      {
+        "title": "Risultati",
+        "desc": "Misuriamo il successo dai miglioramenti operativi concreti del tuo team, non dalle ore di formazione."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Formazione SAP pratica e personalizzata.",
+    "powered_by": "Un brand Sigest Consulting",
+    "links_title": "Link utili",
+    "courses": "Corsi",
+    "about": "Chi siamo",
+    "contact": "Contatti",
+    "privacy": "Privacy Policy",
+    "copyright": "© {year} TooSkill by Sigest. Tutti i diritti riservati."
+  },
+  "modules": {
+    "FI": "Contabilità Finanziaria",
+    "CO": "Controlling",
+    "SCM": "Supply Chain",
+    "ABAP": "Sviluppo ABAP",
+    "FIORI": "SAP Fiori / UX",
+    "S4HANA": "S/4HANA",
+    "HANA": "SAP HANA",
+    "OTHER": "Altro"
+  },
+  "levels_map": {
+    "express": "Express",
+    "base": "Base",
+    "completa": "Completa",
+    "personalizzata": "Personalizzata"
+  }
+}

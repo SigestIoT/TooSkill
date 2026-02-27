@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TooSkill — Formazione SAP Professionale
+
+Website for TooSkill, the SAP training brand by [Sigest Consulting](https://sigestconsulting.com/).
+
+## Stack
+
+- **Next.js 16** (App Router, RSC)
+- **Tailwind CSS v4** with custom brand tokens
+- **shadcn/ui** (New York style)
+- **next-intl** — Italian (default) + English
+- **Supabase** (PostgreSQL + RLS)
+- **Resend** — transactional email
+- **Framer Motion** — animations
+- **Vercel** — deployment
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Copy and fill in environment variables
+cp .env.local.example .env.local
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See `.env.local.example` for all required variables.
 
-## Learn More
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (public) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-only) |
+| `RESEND_API_KEY` | Resend API key for emails |
+| `ADMIN_GUID` | Secret path segment for admin panel |
+| `ADMIN_PASSWORD` | Admin login password |
+| `ADMIN_JWT_SECRET` | JWT signing secret (min 32 chars) |
 
-To learn more about Next.js, take a look at the following resources:
+## Database Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run `supabase/schema.sql` in the Supabase SQL editor to create all tables, triggers, and RLS policies.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Admin Panel
 
-## Deploy on Vercel
+The admin panel is available at `/admin/[ADMIN_GUID]`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Features:
+- Course CRUD (create, edit, publish/unpublish, delete)
+- Contact request management (view, change status)
+- Dashboard with stats
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── [locale]/          # Public pages (IT/EN)
+│   │   ├── page.tsx       # Homepage
+│   │   ├── corsi/         # Course catalog + detail
+│   │   ├── chi-siamo/     # About page
+│   │   └── contatti/      # Contact page
+│   ├── admin/[guid]/      # Admin panel (auth-protected)
+│   └── api/               # API routes (contact + admin)
+├── components/
+│   ├── home/              # Homepage sections
+│   ├── courses/           # CourseCard, CourseGrid, ContactForm
+│   ├── admin/             # AdminLayout, CourseModal
+│   └── layout/            # Navbar, Footer, LanguageSwitcher
+├── lib/
+│   ├── supabase/          # Browser, server, admin clients
+│   ├── auth/              # JWT admin session
+│   └── resend/            # Email HTML templates
+└── types/
+    └── database.ts        # TypeScript types for Supabase
+```
+
+## Deployment
+
+Set all environment variables in the Vercel dashboard, then:
+
+```bash
+vercel --prod
+```
