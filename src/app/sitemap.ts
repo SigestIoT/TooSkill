@@ -21,7 +21,7 @@ function url(path: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticPaths = ['', '/corsi', '/chi-siamo', '/contatti']
+  const staticPaths = ['', '/corsi', '/chi-siamo', '/contatti', '/privacy']
   const staticEntries = staticPaths.flatMap((p) => url(p))
 
   // Dynamic course pages
