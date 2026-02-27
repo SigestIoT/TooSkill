@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAdminSession } from '@/lib/auth/admin'
 import { createAdminClient } from '@/lib/supabase/admin'
+import type { Database } from '@/types/database'
+
+type CourseUpdate = Database['public']['Tables']['courses']['Update']
 
 interface Props {
   params: Promise<{ id: string }>
@@ -27,7 +30,7 @@ export async function PUT(request: NextRequest, { params }: Props) {
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('courses')
-    .update(body)
+    .update(body as CourseUpdate)
     .eq('id', id)
     .select()
     .single()

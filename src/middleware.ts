@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { verifyAdminSession } from './lib/auth/admin'
 
 const intlMiddleware = createIntlMiddleware(routing)
-const ADMIN_GUID = process.env.ADMIN_ROUTE_GUID
+const ADMIN_GUID = process.env.ADMIN_GUID
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith('/admin')) {
     // If GUID is configured and path doesn't contain it, 404
     if (ADMIN_GUID && !pathname.includes(`/admin/${ADMIN_GUID}`)) {
-      return NextResponse.notFound()
+      return new NextResponse(null, { status: 404 })
     }
     // Login page is always accessible
     if (pathname.endsWith('/login')) return NextResponse.next()

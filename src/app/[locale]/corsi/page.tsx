@@ -1,5 +1,5 @@
 import { getTranslations, getLocale } from 'next-intl/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import CourseGrid from '@/components/courses/CourseGrid'
 import type { Course } from '@/types/database'
 import type { Metadata } from 'next'
@@ -15,7 +15,7 @@ export default async function CorsiPage() {
 
   let courses: Course[] = []
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    const supabase = await createServerClient()
+    const supabase = await createClient()
     const { data } = await supabase
       .from('courses')
       .select('*')

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import CourseCard from '@/components/courses/CourseCard'
 import { createClient } from '@/lib/supabase/server'
 import { ArrowRight } from 'lucide-react'
+import type { Course } from '@/types/database'
 
 export default async function FeaturedCourses() {
   const t = await getTranslations('featured')
@@ -20,7 +21,7 @@ export default async function FeaturedCourses() {
       .eq('is_featured', true)
       .order('created_at', { ascending: false })
       .limit(3)
-    courses = data
+    courses = data as Course[] | null
   }
 
   if (!courses?.length) return null

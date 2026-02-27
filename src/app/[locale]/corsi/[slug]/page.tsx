@@ -20,19 +20,15 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return {}
-  const supabase = await createServerClient()
-  const { data } = await supabase
-    .from('courses')
-    .select('title, description')
-    .eq('slug', slug)
-    .single()
+  const supabase = await createClient()
+  const { data } = await supabase.from('courses').select('*').eq('slug', slug).single()
   if (!data) return {}
+  const c = data as Course
   const title =
-    (data.title as LocalizedString)[locale as 'it' | 'en'] ??
-    (data.title as LocalizedString).it
+    (c.title as LocalizedString)[locale as 'it' | 'en'] ?? (c.title as LocalizedString).it
   const description =
-    (data.description as LocalizedString)[locale as 'it' | 'en'] ??
-    (data.description as LocalizedString).it
+    (c.description as LocalizedString)[locale as 'it' | 'en'] ??
+    (c.description as LocalizedString).it
   return { title, description }
 }
 
@@ -44,7 +40,7 @@ export default async function CourseDetailPage({ params }: Props) {
 
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) notFound()
 
-  const supabase = await createServerClient()
+  const supabase = await createClient()
   const { data } = await supabase
     .from('courses')
     .select('*')
