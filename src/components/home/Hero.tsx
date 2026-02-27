@@ -43,8 +43,8 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold text-white leading-[1.05] tracking-tight mb-6"
         >
-          Trasforma il tuo team in{' '}
-          <span className="gradient-text">esperti SAP</span>
+          {t('headline_before')}{' '}
+          <span className="gradient-text">{t('headline_highlight')}</span>
         </motion.h1>
 
         {/* Subheadline */}

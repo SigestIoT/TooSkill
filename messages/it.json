@@ -8,6 +8,8 @@
   "hero": {
     "badge": "Formazione SAP Professionale",
     "headline": "Trasforma il tuo team in esperti SAP",
+    "headline_before": "Trasforma il tuo team in",
+    "headline_highlight": "esperti SAP",
     "subheadline": "Percorsi formativi pratici e personalizzati, sviluppati da consulenti attivi con oltre 20 anni di esperienza nel mondo SAP.",
     "cta_primary": "Scopri i Corsi",
     "cta_secondary": "Contattaci"

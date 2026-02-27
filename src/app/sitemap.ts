@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic course pages
   const courseEntries: MetadataRoute.Sitemap = []
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
     const supabase = createAdminClient()
     const { data } = await supabase
       .from('courses')

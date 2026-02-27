@@ -8,6 +8,8 @@
   "hero": {
     "badge": "Professional SAP Training",
     "headline": "Transform your team into SAP experts",
+    "headline_before": "Transform your team into",
+    "headline_highlight": "SAP experts",
     "subheadline": "Practical, customized training programs developed by active consultants with 20+ years of SAP experience.",
     "cta_primary": "Explore Courses",
     "cta_secondary": "Contact Us"
