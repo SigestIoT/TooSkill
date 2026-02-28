@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { Button } from '@/components/ui/button'
 import LanguageSwitcher from './LanguageSwitcher'
 import { Menu, X } from 'lucide-react'
 
@@ -25,18 +24,20 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
         scrolled
-          ? 'bg-deep/95 backdrop-blur-md shadow-lg border-b border-white/5'
+          ? 'bg-smoke/95 backdrop-blur-md'
           : 'bg-transparent'
       }`}
+      style={scrolled ? { borderBottom: '1px solid rgba(212,151,58,0.12)' } : {}}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <span className="text-xl font-display font-extrabold text-white tracking-tight">
-              Too<span className="gradient-text">Skill</span>
+            <span className="font-display font-extrabold text-lg tracking-tight text-white uppercase">
+              Too<span className="amber-text-gradient">Skill</span>
             </span>
           </Link>
 
@@ -46,7 +47,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+                className="font-mono text-[0.68rem] tracking-[0.16em] uppercase text-white/50 hover:text-white transition-colors duration-200"
               >
                 {link.label}
               </Link>
@@ -54,53 +55,56 @@ export default function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <LanguageSwitcher />
-            <Button
-              asChild
-              size="sm"
-              className="bg-brand-primary hover:bg-brand-primary-dark text-white font-medium"
+            <Link
+              href="/corsi"
+              className="font-display font-bold uppercase tracking-widest text-[0.65rem] text-smoke px-5 py-2.5 transition-all duration-300 hover:opacity-90"
+              style={{ background: 'linear-gradient(115deg, #D4973A 0%, #F5C97A 100%)' }}
             >
-              <Link href="/corsi">{t('cta')}</Link>
-            </Button>
+              {t('cta')}
+            </Link>
           </div>
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden text-white p-2"
+            className="md:hidden text-white/70 hover:text-white p-2 transition-colors"
             onClick={() => setOpen(!open)}
             aria-label={open ? 'Close menu' : 'Open menu'}
           >
-            {open ? <X size={24} /> : <Menu size={24} />}
+            {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-deep/98 backdrop-blur-md border-t border-white/5">
-          <div className="max-w-7xl mx-auto px-4 pb-4 pt-2">
-            {links.map((link) => (
+        <div
+          className="md:hidden backdrop-blur-md"
+          style={{ background: 'rgba(19,18,16,0.97)', borderBottom: '1px solid rgba(212,151,58,0.12)' }}
+        >
+          <div className="max-w-7xl mx-auto px-6 pb-6 pt-2">
+            {links.map((link, i) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block py-3 text-white/80 hover:text-white border-b border-white/5 text-sm"
+                className="flex items-center justify-between py-4 font-mono text-[0.68rem] tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors"
+                style={i < links.length - 1 ? { borderBottom: '1px solid rgba(212,151,58,0.08)' } : {}}
                 onClick={() => setOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="flex items-center gap-3 pt-4">
+            <div className="flex items-center gap-4 pt-5">
               <LanguageSwitcher />
-              <Button
-                asChild
-                size="sm"
-                className="bg-brand-primary hover:bg-brand-primary-dark text-white flex-1"
+              <Link
+                href="/corsi"
+                className="flex-1 text-center font-display font-bold uppercase tracking-widest text-[0.65rem] text-smoke py-3 px-4"
+                style={{ background: 'linear-gradient(115deg, #D4973A 0%, #F5C97A 100%)' }}
+                onClick={() => setOpen(false)}
               >
-                <Link href="/corsi" onClick={() => setOpen(false)}>
-                  {t('cta')}
-                </Link>
-              </Button>
+                {t('cta')}
+              </Link>
             </div>
           </div>
         </div>

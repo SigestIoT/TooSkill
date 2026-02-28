@@ -1,38 +1,66 @@
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 
 export default function CtaSection() {
   const t = useTranslations('cta_section')
 
   return (
-    <section className="py-28 mesh-bg relative overflow-hidden">
-      {/* Center radial glow */}
+    <section className="py-32 bg-smoke relative overflow-hidden">
+      {/* Amber radial glow — top right */}
       <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          background: 'radial-gradient(ellipse 60% 60% at 50% 50%, #4F6EF7 0%, transparent 70%)',
-        }}
+        className="absolute -top-24 -right-24 w-[480px] h-[480px] rounded-full pointer-events-none opacity-[0.12]"
+        style={{ background: 'radial-gradient(circle, #F5C97A 0%, #D4973A 40%, transparent 70%)' }}
+      />
+      {/* Amber radial glow — bottom left */}
+      <div
+        className="absolute -bottom-24 -left-24 w-[360px] h-[360px] rounded-full pointer-events-none opacity-[0.07]"
+        style={{ background: 'radial-gradient(circle, #D4973A 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white leading-tight mb-6 tracking-tight">
-          {t('title')}
-        </h2>
-        <p className="text-white/60 text-lg mb-10 leading-relaxed max-w-xl mx-auto">
-          {t('subtitle')}
-        </p>
-        <Button
-          asChild
-          size="lg"
-          className="bg-brand-primary hover:bg-brand-primary-dark glow-primary text-white px-10 h-13 text-base font-medium group"
-        >
-          <Link href="/contatti">
-            {t('button')}
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </Button>
+      {/* Decorative horizontal lines */}
+      <div className="absolute top-0 left-0 right-0 amber-rule" />
+      <div className="absolute bottom-0 left-0 right-0 amber-rule" />
+
+      <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12">
+
+          {/* Left: headline block */}
+          <div className="lg:flex-1">
+            <span className="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-amber/50 block mb-6">
+              — Ready?
+            </span>
+            <h2
+              className="font-display font-extrabold uppercase text-white leading-[0.88] tracking-tight mb-6"
+              style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)' }}
+            >
+              {t('title')}
+            </h2>
+            <div className="amber-rule w-20" />
+          </div>
+
+          {/* Right: subtitle + CTA */}
+          <div className="lg:w-[400px] shrink-0">
+            <p className="text-stone text-base sm:text-lg leading-relaxed mb-10">
+              {t('subtitle')}
+            </p>
+
+            <Link
+              href="/contatti"
+              className="group inline-flex items-center gap-3 px-8 py-4 font-display font-bold uppercase tracking-widest text-sm text-smoke transition-all duration-300"
+              style={{
+                background: 'linear-gradient(115deg, #D4973A 0%, #F5C97A 100%)',
+                boxShadow: '0 0 40px rgba(212,151,58,0.25)',
+              }}
+            >
+              {t('button')}
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1.5 transition-transform duration-300"
+              />
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -32,7 +32,9 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
   }, [inView, value])
 
   return (
-    <span ref={ref} className="text-4xl sm:text-5xl font-display font-extrabold gradient-text tabular-nums">
+    <span ref={ref} className="font-display font-extrabold tabular-nums leading-none amber-text-gradient"
+      style={{ fontSize: 'clamp(2.6rem, 5vw, 4.2rem)' }}
+    >
       {count}{suffix}
     </span>
   )
@@ -42,23 +44,36 @@ export default function StatsSection() {
   const t = useTranslations('stats')
 
   return (
-    <section className="py-20 bg-white border-y border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+    <section className="py-0 bg-parchment relative overflow-hidden">
+      {/* Top amber rule */}
+      <div className="amber-rule w-full" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+        {/* Grid: 4 columns separated by 1px amber gutters */}
+        <div
+          className="grid grid-cols-2 lg:grid-cols-4"
+          style={{ gap: '1px', background: 'rgba(212,151,58,0.12)' }}
+        >
           {statsData.map((s, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="bg-parchment px-8 py-12 flex flex-col items-start gap-3"
             >
               <Counter value={s.value} suffix={s.suffix} />
-              <p className="text-muted-text text-sm mt-2">{t(s.key)}</p>
+              <span className="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-stone/60">
+                {t(s.key)}
+              </span>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Bottom amber rule */}
+      <div className="amber-rule w-full" />
     </section>
   )
 }

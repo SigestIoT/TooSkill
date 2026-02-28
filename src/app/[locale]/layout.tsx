@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
-import { jakarta, inter } from '@/lib/fonts'
+import { jakarta, inter, instrumentSerif, dmMono } from '@/lib/fonts'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import '../globals.css'
@@ -45,7 +45,7 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${jakarta.variable} ${inter.variable}`}>
+    <html lang={locale} className={`${jakarta.variable} ${inter.variable} ${instrumentSerif.variable} ${dmMono.variable}`}>
       <body className="bg-background text-foreground antialiased">
         <NextIntlClientProvider messages={messages}>
           <Navbar />
