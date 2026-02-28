@@ -1,13 +1,7 @@
 'use client'
 import { useTranslations } from 'next-intl'
 import { motion } from 'framer-motion'
-
-const accentColors = [
-  'rgba(212,151,58,0.55)',   // amber
-  'rgba(212,151,58,0.40)',
-  'rgba(212,151,58,0.65)',
-  'rgba(212,151,58,0.30)',
-]
+import { ArrowRight } from 'lucide-react'
 
 const levelNums = ['01', '02', '03', '04']
 
@@ -17,23 +11,16 @@ export default function TrainingLevels() {
 
   return (
     <section className="py-28 bg-void relative overflow-hidden">
-      {/* Decorative vertical amber rules */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 bottom-0 left-[25%] w-px opacity-[0.04]"
-          style={{ background: 'linear-gradient(180deg, transparent, #D4973A 30%, #D4973A 70%, transparent)' }}
-        />
-        <div className="absolute top-0 bottom-0 left-[50%] w-px opacity-[0.04]"
-          style={{ background: 'linear-gradient(180deg, transparent, #D4973A 30%, #D4973A 70%, transparent)' }}
-        />
-        <div className="absolute top-0 bottom-0 left-[75%] w-px opacity-[0.04]"
-          style={{ background: 'linear-gradient(180deg, transparent, #D4973A 30%, #D4973A 70%, transparent)' }}
-        />
-      </div>
+      {/* Subtle ambient glow */}
+      <div
+        className="absolute bottom-0 right-0 w-[500px] h-[300px] pointer-events-none opacity-[0.05]"
+        style={{ background: 'radial-gradient(ellipse, #D4973A 0%, transparent 70%)' }}
+      />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-16 mb-20">
+        <div className="flex flex-col lg:flex-row lg:items-end gap-6 lg:gap-16 mb-16">
           <div className="lg:w-20 shrink-0">
             <span className="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-amber/40">— 03</span>
           </div>
@@ -51,56 +38,67 @@ export default function TrainingLevels() {
           </div>
         </div>
 
-        {/* Cards grid */}
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-          style={{ gap: '1px', background: 'rgba(212,151,58,0.07)' }}
-        >
+        {/* Index rows */}
+        <div style={{ borderTop: '1px solid rgba(212,151,58,0.10)' }}>
           {items.map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.55, delay: i * 0.1 }}
-              className="group relative bg-void p-8 overflow-hidden hover:bg-ember/50 transition-colors duration-300"
-              style={{ borderTop: `2px solid ${accentColors[i]}` }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="group relative flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8 py-8 cursor-default"
+              style={{ borderBottom: '1px solid rgba(212,151,58,0.10)' }}
             >
-              {/* Ghost name behind card */}
-              <span className="absolute -bottom-3 -right-2 font-display font-extrabold text-[4.5rem] leading-none text-white/[0.03] select-none pointer-events-none uppercase">
-                {item.name}
-              </span>
+              {/* Hover background fill */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{ background: 'rgba(30,27,20,0.6)' }}
+              />
 
-              {/* Level number */}
-              <span className="font-mono text-[0.58rem] tracking-[0.22em] text-amber/45 block mb-6">
+              {/* Left amber reveal bar */}
+              <div
+                className="absolute left-0 top-0 bottom-0 w-0 group-hover:w-[2px] transition-all duration-300 pointer-events-none"
+                style={{ background: 'linear-gradient(180deg, #D4973A, #F5C97A)' }}
+              />
+
+              {/* Number */}
+              <span className="relative font-mono text-[0.62rem] tracking-[0.22em] text-amber/40 shrink-0 lg:w-20 group-hover:text-amber/70 transition-colors duration-300">
                 {levelNums[i]}
               </span>
 
+              {/* Level name — the anchor */}
+              <h3
+                className="relative font-display font-extrabold uppercase text-white tracking-tight leading-none shrink-0 group-hover:text-amber/90 transition-colors duration-300"
+                style={{ fontSize: 'clamp(1.4rem, 2.2vw, 1.9rem)', minWidth: '11rem' }}
+              >
+                {item.name}
+              </h3>
+
               {/* Duration badge */}
               <div
-                className="inline-flex items-center px-2.5 py-1 mb-6"
-                style={{ border: '1px solid rgba(212,151,58,0.22)', background: 'rgba(212,151,58,0.06)' }}
+                className="relative inline-flex items-center self-start sm:self-auto px-2.5 py-1 shrink-0 transition-colors duration-300"
+                style={{
+                  border: '1px solid rgba(212,151,58,0.22)',
+                  background: 'rgba(212,151,58,0.06)',
+                }}
               >
                 <span className="font-mono text-[0.6rem] tracking-[0.18em] uppercase text-amber/70">
                   {item.duration}
                 </span>
               </div>
 
-              {/* Name */}
-              <h3
-                className="font-display font-extrabold uppercase text-white tracking-tight leading-none mb-4"
-                style={{ fontSize: 'clamp(1.4rem, 2vw, 1.8rem)' }}
-              >
-                {item.name}
-              </h3>
+              {/* Thin separator line — desktop only */}
+              <div className="relative hidden sm:block h-px flex-shrink-0 w-8 bg-amber/10" />
 
               {/* Description */}
-              <p className="text-stone text-sm leading-relaxed">{item.desc}</p>
+              <p className="relative text-stone text-sm leading-relaxed flex-1 max-w-lg">
+                {item.desc}
+              </p>
 
-              {/* Bottom reveal */}
-              <div
-                className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 ease-out"
-                style={{ background: 'linear-gradient(90deg, #D4973A, #F5C97A)' }}
+              {/* Arrow — appears on hover */}
+              <ArrowRight
+                size={14}
+                className="relative hidden sm:block shrink-0 text-amber/0 group-hover:text-amber/50 transition-all duration-300 group-hover:translate-x-1"
               />
             </motion.div>
           ))}
