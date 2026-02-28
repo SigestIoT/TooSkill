@@ -2,8 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import ContactForm from '@/components/courses/ContactForm'
-import { Badge } from '@/components/ui/badge'
-import { CheckCircle2, Clock, BookOpen, Users } from 'lucide-react'
+import { Clock, BookOpen, Users, CheckCircle2 } from 'lucide-react'
 import type {
   Course,
   LocalizedString,
@@ -70,57 +69,122 @@ export default async function CourseDetailPage({ params }: Props) {
     ''
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ background: '#131210' }}>
       {/* Hero */}
-      <section className="py-20 mesh-bg relative overflow-hidden">
+      <section className="relative overflow-hidden" style={{ background: '#09080A' }}>
+        {/* Ambient amber glow */}
         <div
-          className="absolute inset-0 opacity-15"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 80% 60% at 20% 50%, #4F6EF7 0%, transparent 70%)',
+              'radial-gradient(ellipse 80% 60% at 20% 60%, rgba(212,151,58,0.07) 0%, transparent 70%)',
           }}
         />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-2 mb-4">
-            <Badge className="bg-brand-primary/20 text-white border-brand-primary/30">
+        {/* Amber rule top */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[1px]"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.4), transparent)',
+          }}
+        />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-28">
+          {/* Module + Level tags */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            <span
+              className="font-mono text-[0.58rem] tracking-[0.18em] uppercase px-2.5 py-1"
+              style={{
+                color: '#D4973A',
+                border: '1px solid rgba(212,151,58,0.30)',
+                background: 'rgba(212,151,58,0.07)',
+              }}
+            >
               {tModules(c.module)}
-            </Badge>
-            <Badge className="bg-white/10 text-white border-white/20">
+            </span>
+            <span
+              className="font-mono text-[0.58rem] tracking-[0.14em] uppercase px-2.5 py-1"
+              style={{
+                color: 'rgba(156,148,136,0.7)',
+                border: '1px solid rgba(156,148,136,0.20)',
+              }}
+            >
               {tLevels(c.level)}
-            </Badge>
+            </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-white mb-4 leading-tight">
+
+          <h1
+            className="font-display font-extrabold text-white leading-[0.94] tracking-[-0.02em] mb-5"
+            style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}
+          >
             {title}
           </h1>
-          <p className="text-white/70 text-lg leading-relaxed max-w-2xl">{description}</p>
+
+          {/* Amber rule */}
+          <div
+            className="mb-5"
+            style={{
+              width: '3.5rem',
+              height: '1px',
+              background: 'linear-gradient(90deg, #D4973A, transparent)',
+            }}
+          />
+
+          <p
+            className="text-stone leading-relaxed max-w-2xl"
+            style={{ fontSize: 'clamp(0.85rem, 1.3vw, 0.97rem)' }}
+          >
+            {description}
+          </p>
+
           {c.duration_hours && (
-            <div className="flex items-center gap-1.5 mt-5 text-white/50 text-sm">
-              <Clock size={14} />
-              <span>
+            <div className="flex items-center gap-2 mt-6">
+              <Clock size={12} style={{ color: 'rgba(212,151,58,0.45)' }} />
+              <span
+                className="font-mono text-[0.6rem] tracking-[0.18em] uppercase"
+                style={{ color: 'rgba(212,151,58,0.45)' }}
+              >
                 {c.duration_hours}h — {t('duration')}
               </span>
             </div>
           )}
         </div>
+
+        {/* Amber rule bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px]"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.15), transparent)',
+          }}
+        />
       </section>
 
       {/* Body */}
-      <section className="py-16 bg-surface">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <section style={{ background: '#F0E9D8' }}>
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-16">
             {/* Main content */}
-            <div className="lg:col-span-2 space-y-10">
+            <div className="space-y-12">
               {/* Objectives */}
               {objectives.length > 0 && (
                 <div>
-                  <h2 className="text-xl font-display font-bold text-deep mb-4 flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-brand-primary" />
-                    {t('objectives')}
-                  </h2>
-                  <ul className="space-y-2">
+                  <div className="flex items-center gap-3 mb-5">
+                    <CheckCircle2 size={14} style={{ color: '#D4973A' }} />
+                    <h2
+                      className="font-display font-extrabold uppercase tracking-wider"
+                      style={{ fontSize: 'clamp(0.8rem, 1.2vw, 0.9rem)', color: '#09080A' }}
+                    >
+                      {t('objectives')}
+                    </h2>
+                  </div>
+                  <ul className="space-y-3">
                     {objectives.map((obj: string, i: number) => (
-                      <li key={i} className="flex gap-3 text-sm text-muted-text leading-relaxed">
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-primary flex-shrink-0" />
+                      <li key={i} className="flex gap-4 text-sm leading-relaxed" style={{ color: '#4a4540' }}>
+                        <span
+                          className="rounded-full flex-shrink-0"
+                          style={{ background: '#D4973A', width: '4px', height: '4px', minWidth: '4px', marginTop: '0.45rem' }}
+                        />
                         {obj}
                       </li>
                     ))}
@@ -128,21 +192,53 @@ export default async function CourseDetailPage({ params }: Props) {
                 </div>
               )}
 
+              {/* Divider */}
+              {objectives.length > 0 && program.length > 0 && (
+                <div style={{ height: '1px', background: 'rgba(212,151,58,0.20)' }} />
+              )}
+
               {/* Program */}
               {program.length > 0 && (
                 <div>
-                  <h2 className="text-xl font-display font-bold text-deep mb-4 flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-brand-primary" />
-                    {t('program')}
-                  </h2>
-                  <div className="space-y-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <BookOpen size={14} style={{ color: '#D4973A' }} />
+                    <h2
+                      className="font-display font-extrabold uppercase tracking-wider"
+                      style={{ fontSize: 'clamp(0.8rem, 1.2vw, 0.9rem)', color: '#09080A' }}
+                    >
+                      {t('program')}
+                    </h2>
+                  </div>
+                  <div className="space-y-8">
                     {program.map((section: ProgramSection, i: number) => (
                       <div key={i}>
-                        <h3 className="font-semibold text-deep text-sm mb-2">{section.title}</h3>
-                        <ul className="space-y-1.5">
+                        <div className="flex items-center gap-3 mb-3">
+                          <span
+                            className="font-mono text-[0.56rem] tracking-[0.2em] uppercase"
+                            style={{ color: 'rgba(212,151,58,0.60)' }}
+                          >
+                            {String(i + 1).padStart(2, '0')}
+                          </span>
+                          <h3
+                            className="font-display font-bold text-sm"
+                            style={{ color: '#09080A' }}
+                          >
+                            {section.title}
+                          </h3>
+                        </div>
+                        <ul className="space-y-2 pl-8">
                           {section.items.map((item: string, j: number) => (
-                            <li key={j} className="flex gap-3 text-sm text-muted-text">
-                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-cyan flex-shrink-0" />
+                            <li key={j} className="flex gap-3 text-sm leading-relaxed" style={{ color: '#4a4540' }}>
+                              <span
+                                className="rounded-full flex-shrink-0"
+                                style={{
+                                  background: 'rgba(212,151,58,0.45)',
+                                  width: '4px',
+                                  height: '4px',
+                                  minWidth: '4px',
+                                  marginTop: '0.45rem',
+                                }}
+                              />
                               {item}
                             </li>
                           ))}
@@ -153,28 +249,64 @@ export default async function CourseDetailPage({ params }: Props) {
                 </div>
               )}
 
+              {/* Divider */}
+              {prerequisites && program.length > 0 && (
+                <div style={{ height: '1px', background: 'rgba(212,151,58,0.20)' }} />
+              )}
+
               {/* Prerequisites */}
               {prerequisites && (
                 <div>
-                  <h2 className="text-xl font-display font-bold text-deep mb-3 flex items-center gap-2">
-                    <Users className="w-5 h-5 text-brand-primary" />
-                    {t('prerequisites')}
-                  </h2>
-                  <p className="text-sm text-muted-text leading-relaxed">{prerequisites}</p>
+                  <div className="flex items-center gap-3 mb-4">
+                    <Users size={14} style={{ color: '#D4973A' }} />
+                    <h2
+                      className="font-display font-extrabold uppercase tracking-wider"
+                      style={{ fontSize: 'clamp(0.8rem, 1.2vw, 0.9rem)', color: '#09080A' }}
+                    >
+                      {t('prerequisites')}
+                    </h2>
+                  </div>
+                  <p className="text-sm leading-relaxed" style={{ color: '#4a4540' }}>{prerequisites}</p>
                 </div>
               )}
             </div>
 
-            {/* Sticky sidebar */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-24 rounded-2xl border border-border bg-white p-6 shadow-sm">
-                <h2 className="font-display font-bold text-deep text-lg mb-1">
+            {/* Sticky sidebar — stays dark for CTA contrast */}
+            <div>
+              <div
+                className="sticky top-24 p-7"
+                style={{
+                  background: '#1E1B14',
+                  border: '1px solid rgba(212,151,58,0.18)',
+                }}
+              >
+                {/* Amber accent top */}
+                <div
+                  style={{
+                    height: '2px',
+                    background: 'linear-gradient(90deg, #D4973A, #F5C97A)',
+                    marginTop: '-1.75rem',
+                    marginLeft: '-1.75rem',
+                    marginRight: '-1.75rem',
+                    marginBottom: '1.5rem',
+                  }}
+                />
+
+                <h2
+                  className="font-display font-extrabold text-white mb-1 uppercase tracking-wider"
+                  style={{ fontSize: '0.82rem' }}
+                >
                   {t('register')}
                 </h2>
                 {c.price_info && (
-                  <p className="text-muted-text text-xs mb-4">{c.price_info}</p>
+                  <p
+                    className="font-mono text-[0.57rem] tracking-[0.14em] uppercase mb-5"
+                    style={{ color: 'rgba(212,151,58,0.40)' }}
+                  >
+                    {c.price_info}
+                  </p>
                 )}
-                <ContactForm courseId={c.id} courseTitle={title} />
+                <ContactForm courseId={c.id} courseTitle={title} singleColumn />
               </div>
             </div>
           </div>

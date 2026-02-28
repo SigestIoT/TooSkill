@@ -132,7 +132,9 @@
     "course": "Corso di interesse (opzionale)",
     "submit": "Invia richiesta",
     "success": "Grazie! Ti risponderemo entro 24 ore lavorative.",
-    "error": "Si è verificato un errore. Riprova o scrivi a info@tooskill.it"
+    "error": "Si è verificato un errore. Riprova o scrivi a info@tooskill.it",
+    "privacy_before": "Ho letto e accetto la",
+    "privacy_link": "Privacy Policy"
   },
   "about": {
     "title": "Chi siamo",

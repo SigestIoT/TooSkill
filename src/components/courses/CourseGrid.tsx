@@ -32,9 +32,14 @@ export default function CourseGrid({ courses, locale }: Props) {
       />
 
       {filtered.length === 0 ? (
-        <p className="text-muted-text text-center py-20">{t('no_results')}</p>
+        <p className="font-mono text-[0.68rem] tracking-[0.22em] uppercase text-stone/35 text-center py-24">
+          {t('no_results')}
+        </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          style={{ gap: '1px', background: 'rgba(212,151,58,0.08)' }}
+        >
           <AnimatePresence mode="popLayout">
             {filtered.map((course, i) => (
               <motion.div

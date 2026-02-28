@@ -198,41 +198,89 @@ export default async function PrivacyPage() {
   const content = locale === 'en' ? en : it
 
   return (
-    <div>
+    <div style={{ background: '#131210' }}>
       {/* Header */}
-      <section className="py-20 mesh-bg relative overflow-hidden">
+      <section className="relative overflow-hidden" style={{ background: '#09080A' }}>
+        {/* Amber rule top */}
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute top-0 left-0 right-0 h-[1px]"
           style={{
-            background: 'radial-gradient(ellipse 60% 50% at 50% 0%, #4F6EF7 0%, transparent 70%)',
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.4), transparent)',
           }}
         />
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-display font-extrabold text-white mb-3 tracking-tight">
+
+        <div className="relative z-10 max-w-3xl mx-auto px-6 sm:px-10 lg:px-16 py-20 sm:py-28 text-center">
+          <p
+            className="font-mono text-[0.58rem] tracking-[0.26em] uppercase mb-5"
+            style={{ color: 'rgba(212,151,58,0.50)' }}
+          >
+            — Legal
+          </p>
+          <h1
+            className="font-display font-extrabold text-white leading-tight tracking-[-0.02em] mb-3"
+            style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
+          >
             {content.title}
           </h1>
-          <p className="text-white/40 text-sm">{content.updated}</p>
+          <p
+            className="font-mono text-[0.58rem] tracking-[0.18em] uppercase"
+            style={{ color: 'rgba(156,148,136,0.35)' }}
+          >
+            {content.updated}
+          </p>
         </div>
+
+        {/* Amber rule bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px]"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.15), transparent)',
+          }}
+        />
       </section>
 
       {/* Content */}
-      <section className="py-16 bg-surface">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Intro */}
-          <div className="bg-white rounded-2xl border border-border p-8 mb-8 shadow-sm">
-            <p className="text-muted-text leading-relaxed text-sm">{content.intro}</p>
+      <section style={{ background: '#131210' }}>
+        <div className="max-w-3xl mx-auto px-6 sm:px-10 lg:px-16 py-14 sm:py-20">
+          {/* Intro block */}
+          <div
+            className="p-7 mb-8"
+            style={{
+              background: 'rgba(30,27,20,0.4)',
+              border: '1px solid rgba(212,151,58,0.12)',
+              borderLeft: '2px solid rgba(212,151,58,0.45)',
+            }}
+          >
+            <p className="text-stone text-sm leading-relaxed">{content.intro}</p>
           </div>
 
           {/* Sections */}
-          <div className="space-y-6">
+          <div style={{ borderTop: '1px solid rgba(212,151,58,0.10)' }}>
             {content.sections.map((section, i) => (
-              <div key={i} className="bg-white rounded-2xl border border-border p-8 shadow-sm">
-                <h2 className="font-display font-bold text-deep text-lg mb-4">
-                  {section.title}
-                </h2>
-                <div className="space-y-2">
+              <div
+                key={i}
+                className="py-8"
+                style={{ borderBottom: '1px solid rgba(212,151,58,0.10)' }}
+              >
+                <div className="flex items-baseline gap-4 mb-4">
+                  <span
+                    className="font-mono text-[0.56rem] tracking-[0.22em] uppercase shrink-0"
+                    style={{ color: 'rgba(212,151,58,0.30)' }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h2
+                    className="font-display font-bold text-white/85"
+                    style={{ fontSize: 'clamp(0.82rem, 1.3vw, 0.95rem)' }}
+                  >
+                    {section.title.replace(/^\d+\.\s*/, '')}
+                  </h2>
+                </div>
+                <div className="space-y-2 pl-10">
                   {section.content.map((line, j) => (
-                    <p key={j} className="text-muted-text text-sm leading-relaxed">
+                    <p key={j} className="text-stone text-sm leading-relaxed">
                       {line}
                     </p>
                   ))}
@@ -241,16 +289,19 @@ export default async function PrivacyPage() {
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="mt-8 p-6 rounded-2xl bg-brand-primary/5 border border-brand-primary/20 text-center">
-            <p className="text-sm text-deep font-medium mb-1">
+          {/* Footer CTA */}
+          <div className="mt-10 py-8 text-center" style={{ borderTop: '1px solid rgba(212,151,58,0.10)' }}>
+            <p
+              className="font-mono text-[0.58rem] tracking-[0.2em] uppercase mb-3"
+              style={{ color: 'rgba(156,148,136,0.45)' }}
+            >
               {locale === 'en'
                 ? 'Questions about your privacy?'
                 : 'Domande sulla tua privacy?'}
             </p>
             <a
               href="mailto:privacy@sigestconsulting.com"
-              className="text-brand-primary text-sm font-semibold hover:underline"
+              className="font-display font-bold text-sm transition-colors duration-200 text-[#D4973A] hover:text-[#F5C97A]"
             >
               privacy@sigestconsulting.com
             </a>

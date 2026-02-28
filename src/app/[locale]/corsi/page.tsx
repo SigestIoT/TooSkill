@@ -26,24 +26,70 @@ export default async function CorsiPage() {
 
   return (
     <>
-      <section className="py-20 mesh-bg relative overflow-hidden">
+      {/* Hero — dark */}
+      <section className="relative overflow-hidden" style={{ background: '#09080A' }}>
+        {/* Ambient amber glow */}
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 80% 50% at 50% 0%, #4F6EF7 0%, transparent 70%)',
+              'radial-gradient(ellipse 70% 60% at 15% 50%, rgba(212,151,58,0.08) 0%, transparent 70%)',
           }}
         />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-display font-extrabold text-white mb-4 tracking-tight">
+        {/* Amber rule top */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[1px]"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.4), transparent)',
+          }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-32">
+          <p
+            className="font-mono text-[0.6rem] tracking-[0.28em] uppercase mb-6"
+            style={{ color: 'rgba(212,151,58,0.55)' }}
+          >
+            — Corsi SAP
+          </p>
+
+          <h1
+            className="font-display font-extrabold text-white leading-[0.92] tracking-[-0.02em] mb-6"
+            style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)' }}
+          >
             {t('title')}
           </h1>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">{t('subtitle')}</p>
+
+          <div
+            className="mb-6"
+            style={{
+              width: '4rem',
+              height: '1px',
+              background: 'linear-gradient(90deg, #D4973A, transparent)',
+            }}
+          />
+
+          <p
+            className="text-stone leading-relaxed max-w-xl"
+            style={{ fontSize: 'clamp(0.88rem, 1.4vw, 1rem)' }}
+          >
+            {t('subtitle')}
+          </p>
         </div>
+
+        {/* Amber rule bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px]"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.20), transparent)',
+          }}
+        />
       </section>
 
-      <section className="py-16 bg-surface">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Grid — light parchment */}
+      <section style={{ background: '#F0E9D8' }}>
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
           <CourseGrid courses={courses} locale={locale} />
         </div>
       </section>

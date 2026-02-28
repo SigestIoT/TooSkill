@@ -132,7 +132,9 @@
     "course": "Course of interest (optional)",
     "submit": "Send request",
     "success": "Thank you! We'll respond within 24 business hours.",
-    "error": "An error occurred. Please try again or write to info@tooskill.it"
+    "error": "An error occurred. Please try again or write to info@tooskill.it",
+    "privacy_before": "I have read and accept the",
+    "privacy_link": "Privacy Policy"
   },
   "about": {
     "title": "About us",

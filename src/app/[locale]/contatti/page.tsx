@@ -12,53 +12,157 @@ export default async function ContattiPage() {
   const t = await getTranslations('contact')
 
   return (
-    <div>
+    <div style={{ background: '#F0E9D8' }}>
       {/* Hero */}
-      <section className="py-20 mesh-bg relative overflow-hidden">
+      <section className="relative overflow-hidden" style={{ background: '#09080A' }}>
+        {/* Ambient glow */}
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse 60% 60% at 50% 50%, #4F6EF7 0%, transparent 70%)',
+              'radial-gradient(ellipse 65% 55% at 50% 70%, rgba(212,151,58,0.07) 0%, transparent 70%)',
           }}
         />
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-display font-extrabold text-white mb-4 tracking-tight">
+        {/* Amber rule top */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[1px]"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.4), transparent)',
+          }}
+        />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-32">
+          <p
+            className="font-mono text-[0.6rem] tracking-[0.28em] uppercase mb-6"
+            style={{ color: 'rgba(212,151,58,0.55)' }}
+          >
+            — Contatti
+          </p>
+
+          <h1
+            className="font-display font-extrabold text-white leading-[0.92] tracking-[-0.02em] mb-6"
+            style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}
+          >
             {t('title')}
           </h1>
-          <p className="text-white/60 text-lg leading-relaxed max-w-xl mx-auto">
+
+          {/* Amber rule */}
+          <div
+            className="mb-6"
+            style={{
+              width: '4rem',
+              height: '1px',
+              background: 'linear-gradient(90deg, #D4973A, transparent)',
+            }}
+          />
+
+          <p
+            className="text-stone leading-relaxed max-w-md"
+            style={{ fontSize: 'clamp(0.88rem, 1.4vw, 1rem)' }}
+          >
             {t('subtitle')}
           </p>
         </div>
+
+        {/* Amber rule bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px]"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(212,151,58,0.15), transparent)',
+          }}
+        />
       </section>
 
       {/* Content */}
-      <section className="py-16 bg-surface">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <section style={{ background: '#F0E9D8' }}>
+        <div className="max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16">
             {/* Info sidebar */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="flex gap-4 items-start p-5 rounded-2xl bg-white border border-border">
-                <Mail className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
+              {/* Email */}
+              <div
+                className="flex gap-4 items-start p-5"
+                style={{
+                  background: '#FAF6EE',
+                  border: '1px solid rgba(212,151,58,0.22)',
+                }}
+              >
+                <Mail
+                  size={13}
+                  className="flex-shrink-0 mt-0.5"
+                  style={{ color: '#D4973A' }}
+                />
                 <div>
-                  <h3 className="font-semibold text-deep text-sm mb-1">Email</h3>
-                  <p className="text-muted-text text-sm">info@tooskill.it</p>
-                </div>
-              </div>
-              <div className="flex gap-4 items-start p-5 rounded-2xl bg-white border border-border">
-                <Clock className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-semibold text-deep text-sm mb-1">
-                    {t('success').split('.')[0]}
+                  <h3
+                    className="font-mono text-[0.58rem] tracking-[0.2em] uppercase mb-1.5"
+                    style={{ color: 'rgba(212,151,58,0.7)' }}
+                  >
+                    Email
                   </h3>
-                  <p className="text-muted-text text-sm">24h</p>
+                  <p className="text-sm" style={{ color: '#09080A' }}>info@tooskill.it</p>
                 </div>
               </div>
+
+              {/* Response time */}
+              <div
+                className="flex gap-4 items-start p-5"
+                style={{
+                  background: '#FAF6EE',
+                  border: '1px solid rgba(212,151,58,0.22)',
+                }}
+              >
+                <Clock
+                  size={13}
+                  className="flex-shrink-0 mt-0.5"
+                  style={{ color: '#D4973A' }}
+                />
+                <div>
+                  <h3
+                    className="font-mono text-[0.58rem] tracking-[0.2em] uppercase mb-1.5"
+                    style={{ color: 'rgba(212,151,58,0.7)' }}
+                  >
+                    Risposta entro
+                  </h3>
+                  <p className="text-sm" style={{ color: '#09080A' }}>24h</p>
+                </div>
+              </div>
+
+              {/* Decorative editorial note */}
+              <p
+                className="font-mono text-[0.55rem] tracking-[0.16em] uppercase leading-relaxed pt-2"
+                style={{ color: 'rgba(74,69,64,0.45)' }}
+              >
+                Ogni richiesta viene presa in carico personalmente dal team TooSkill.
+              </p>
             </div>
 
-            {/* Form */}
+            {/* Form — stays dark for strong contrast / CTA emphasis */}
             <div className="lg:col-span-3">
-              <div className="rounded-2xl border border-border bg-white p-8 shadow-sm">
+              <div
+                className="p-8"
+                style={{
+                  background: '#1E1B14',
+                  border: '1px solid rgba(212,151,58,0.18)',
+                }}
+              >
+                {/* Amber accent top */}
+                <div
+                  className="-mt-8 -mx-8 mb-7"
+                  style={{
+                    height: '2px',
+                    background: 'linear-gradient(90deg, #D4973A, #F5C97A)',
+                  }}
+                />
+
+                <h2
+                  className="font-display font-extrabold text-white uppercase tracking-wider mb-6"
+                  style={{ fontSize: '0.82rem' }}
+                >
+                  Invia un messaggio
+                </h2>
+
                 <ContactForm />
               </div>
             </div>

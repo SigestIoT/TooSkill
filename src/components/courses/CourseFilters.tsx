@@ -11,6 +11,30 @@ interface Props {
 const modules = ['FI', 'CO', 'SCM', 'ABAP', 'FIORI', 'S4HANA', 'HANA', 'OTHER']
 const levels = ['express', 'base', 'completa', 'personalizzata']
 
+function FilterBtn({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="font-mono text-[0.6rem] tracking-[0.14em] uppercase px-3 py-1.5 transition-all duration-200 cursor-pointer"
+      style={{
+        border: active ? '1px solid rgba(212,151,58,0.55)' : '1px solid rgba(74,69,64,0.22)',
+        background: active ? 'rgba(212,151,58,0.10)' : 'rgba(255,255,255,0.5)',
+        color: active ? '#D4973A' : 'rgba(74,69,64,0.55)',
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
 export default function CourseFilters({
   selectedModule,
   selectedLevel,
@@ -20,44 +44,46 @@ export default function CourseFilters({
   const t = useTranslations('courses')
   const tl = useTranslations('levels_map')
 
-  const pill = (active: boolean) =>
-    `px-4 py-1.5 rounded-full text-sm font-medium transition-all cursor-pointer border ${
-      active
-        ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
-        : 'bg-white text-muted-text border-border hover:border-brand-primary/40 hover:text-brand-primary'
-    }`
-
   return (
-    <div className="flex flex-col gap-3 mb-10">
-      <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-xs text-muted-text font-semibold uppercase tracking-wider mr-1">
+    <div className="mb-12" style={{ borderBottom: '1px solid rgba(74,69,64,0.14)' }}>
+      {/* Module row */}
+      <div
+        className="flex flex-wrap items-center gap-4 py-4"
+        style={{ borderTop: '1px solid rgba(212,151,58,0.10)' }}
+      >
+        <span className="font-mono text-[0.56rem] tracking-[0.22em] uppercase text-amber/35 shrink-0 w-16">
           {t('filter_module')}
         </span>
-        <button className={pill(selectedModule === '')} onClick={() => onModuleChange('')}>
-          {t('all')}
-        </button>
-        {modules.map((m) => (
-          <button
-            key={m}
-            className={pill(selectedModule === m)}
-            onClick={() => onModuleChange(m)}
-          >
-            SAP {m}
-          </button>
-        ))}
+        <div className="flex flex-wrap gap-1.5">
+          <FilterBtn active={selectedModule === ''} onClick={() => onModuleChange('')}>
+            {t('all')}
+          </FilterBtn>
+          {modules.map((m) => (
+            <FilterBtn key={m} active={selectedModule === m} onClick={() => onModuleChange(m)}>
+              SAP {m}
+            </FilterBtn>
+          ))}
+        </div>
       </div>
-      <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-xs text-muted-text font-semibold uppercase tracking-wider mr-1">
+
+      {/* Level row */}
+      <div
+        className="flex flex-wrap items-center gap-4 py-4"
+        style={{ borderTop: '1px solid rgba(212,151,58,0.10)' }}
+      >
+        <span className="font-mono text-[0.56rem] tracking-[0.22em] uppercase text-amber/35 shrink-0 w-16">
           {t('filter_level')}
         </span>
-        <button className={pill(selectedLevel === '')} onClick={() => onLevelChange('')}>
-          {t('all')}
-        </button>
-        {levels.map((l) => (
-          <button key={l} className={pill(selectedLevel === l)} onClick={() => onLevelChange(l)}>
-            {tl(l)}
-          </button>
-        ))}
+        <div className="flex flex-wrap gap-1.5">
+          <FilterBtn active={selectedLevel === ''} onClick={() => onLevelChange('')}>
+            {t('all')}
+          </FilterBtn>
+          {levels.map((l) => (
+            <FilterBtn key={l} active={selectedLevel === l} onClick={() => onLevelChange(l)}>
+              {tl(l)}
+            </FilterBtn>
+          ))}
+        </div>
       </div>
     </div>
   )
