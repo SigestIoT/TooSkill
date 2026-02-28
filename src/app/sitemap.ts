@@ -4,20 +4,36 @@ import { createAdminClient } from '@/lib/supabase/admin'
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? 'https://tooskill.it'
 const locales = ['it', 'en']
 
+type Frequency = MetadataRoute.Sitemap[number]['changeFrequency']
+
+const priorities: Record<string, number> = {
+  '': 1.0,
+  '/corsi': 0.9,
+  '/contatti': 0.8,
+  '/chi-siamo': 0.7,
+  '/privacy': 0.3,
+}
+
+const frequencies: Record<string, Frequency> = {
+  '': 'weekly',
+  '/corsi': 'weekly',
+  '/contatti': 'monthly',
+  '/chi-siamo': 'monthly',
+  '/privacy': 'yearly',
+}
+
 function url(path: string) {
-  const paths = locales.map((l) => ({
+  return locales.map((l) => ({
     url: `${BASE}${l === 'it' ? '' : `/${l}`}${path}`,
     lastModified: new Date(),
+    changeFrequency: frequencies[path] ?? 'monthly',
+    priority: priorities[path] ?? 0.6,
     alternates: {
       languages: Object.fromEntries(
-        locales.map((loc) => [
-          loc,
-          `${BASE}${loc === 'it' ? '' : `/${loc}`}${path}`,
-        ])
+        locales.map((loc) => [loc, `${BASE}${loc === 'it' ? '' : `/${loc}`}${path}`])
       ),
     },
   }))
-  return paths
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -38,6 +54,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           ...locales.map((l) => ({
             url: `${BASE}${l === 'it' ? '' : `/${l}`}/corsi/${course.slug}`,
             lastModified: new Date(course.updated_at),
+            changeFrequency: 'monthly' as Frequency,
+            priority: 0.8,
             alternates: {
               languages: Object.fromEntries(
                 locales.map((loc) => [

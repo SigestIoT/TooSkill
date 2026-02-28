@@ -1,11 +1,19 @@
 import { getLocale } from 'next-intl/server'
 import type { Metadata } from 'next'
 
-export async function generateMetadata(): Promise<Metadata> {
+interface Props {
+  params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const isEn = locale === 'en'
   return {
     title: 'Privacy Policy',
-    description: 'Informativa sul trattamento dei dati personali ai sensi del GDPR.',
-    robots: { index: false },
+    description: isEn
+      ? 'Information on the processing of personal data pursuant to GDPR.'
+      : 'Informativa sul trattamento dei dati personali ai sensi del GDPR.',
+    robots: { index: false, follow: false },
   }
 }
 

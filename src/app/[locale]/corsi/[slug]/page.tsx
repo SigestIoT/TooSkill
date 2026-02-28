@@ -16,6 +16,8 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>
 }
 
+const BASE = process.env.NEXT_PUBLIC_APP_URL ?? 'https://tooskill.it'
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return {}
@@ -23,12 +25,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { data } = await supabase.from('courses').select('*').eq('slug', slug).single()
   if (!data) return {}
   const c = data as Course
-  const title =
-    (c.title as LocalizedString)[locale as 'it' | 'en'] ?? (c.title as LocalizedString).it
+  const loc = locale as 'it' | 'en'
+  const title = (c.title as LocalizedString)[loc] ?? (c.title as LocalizedString).it
   const description =
-    (c.description as LocalizedString)[locale as 'it' | 'en'] ??
-    (c.description as LocalizedString).it
-  return { title, description }
+    (c.description as LocalizedString)[loc] ?? (c.description as LocalizedString).it
+  const canonical = `${BASE}${locale === 'it' ? '' : `/${locale}`}/corsi/${slug}`
+  const ogImage = c.image_url
+    ? [{ url: c.image_url, width: 1200, height: 630, alt: title }]
+    : [{ url: '/opengraph-image', width: 1200, height: 630, alt: title }]
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+      languages: {
+        it: `${BASE}/corsi/${slug}`,
+        en: `${BASE}/en/corsi/${slug}`,
+      },
+    },
+    openGraph: { title, description, type: 'article', url: canonical, images: ogImage },
+    twitter: { card: 'summary_large_image', title, description, images: ogImage.map(i => i.url) },
+  }
 }
 
 export default async function CourseDetailPage({ params }: Props) {
@@ -68,7 +86,32 @@ export default async function CourseDetailPage({ params }: Props) {
     (c.prerequisites as LocalizedString)?.it ??
     ''
 
+  const courseJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: title,
+    description,
+    url: `${BASE}${locale === 'it' ? '' : `/${locale}`}/corsi/${slug}`,
+    provider: {
+      '@type': 'Organization',
+      name: 'TooSkill',
+      url: BASE,
+    },
+    ...(c.duration_hours && { timeRequired: `PT${c.duration_hours}H` }),
+    ...(objectives.length > 0 && { teaches: objectives }),
+    offers: {
+      '@type': 'Offer',
+      category: 'Corporate Training',
+      url: `${BASE}${locale === 'it' ? '' : `/${locale}`}/corsi/${slug}`,
+    },
+  }
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
+    />
     <div className="min-h-screen" style={{ background: '#131210' }}>
       {/* Hero */}
       <section className="relative overflow-hidden" style={{ background: '#09080A' }}>
@@ -313,5 +356,6 @@ export default async function CourseDetailPage({ params }: Props) {
         </div>
       </section>
     </div>
+    </>
   )
 }
