@@ -100,7 +100,7 @@ export default async function FeaturedCourses() {
             return (
               <div
                 key={course.id}
-                className="group relative flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="group relative flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg overflow-hidden"
                 style={{
                   background: '#FAF6EE',
                   borderTop: '1px solid rgba(212,151,58,0.18)',
@@ -117,6 +117,34 @@ export default async function FeaturedCourses() {
                     background: 'linear-gradient(180deg, #D4973A 0%, #F5C97A 50%, #D4973A 100%)',
                   }}
                 />
+
+                {/* ── Image banner ── */}
+                <div className="relative w-full overflow-hidden" style={{ height: '160px', background: '#1E1B14', flexShrink: 0 }}>
+                  {course.image_url ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={course.image_url}
+                        alt={title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div
+                        className="absolute bottom-0 left-0 right-0 h-10 pointer-events-none"
+                        style={{ background: 'linear-gradient(to bottom, transparent, rgba(250,246,238,0.65))' }}
+                      />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center" style={{
+                      background: 'linear-gradient(135deg, #09080A 0%, #1E1B14 60%, #2a2316 100%)',
+                    }}>
+                      <div className="text-center select-none">
+                        <div className="font-mono font-bold tracking-[0.22em] uppercase" style={{ fontSize: '0.55rem', color: 'rgba(212,151,58,0.30)', marginBottom: '0.25rem' }}>SAP</div>
+                        <div className="font-display font-extrabold" style={{ fontSize: '2rem', color: 'rgba(212,151,58,0.15)', lineHeight: 1 }}>{course.module}</div>
+                      </div>
+                      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 70%, rgba(212,151,58,0.05) 0%, transparent 70%)' }} />
+                    </div>
+                  )}
+                </div>
 
                 <div className="relative flex flex-col flex-1 p-6 pl-7">
                   {/* Module + Level */}
