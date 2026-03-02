@@ -64,14 +64,14 @@ export default function Hero() {
             >
               <h1
                 className="font-display font-extrabold leading-[0.9] tracking-tight text-white uppercase"
-                style={{ fontSize: 'clamp(2.6rem, 5.5vw, 4.6rem)' }}
+                style={{ fontSize: 'clamp(2rem, 8vw, 4.6rem)', overflowWrap: 'break-word' }}
               >
                 {t('headline_before')}
               </h1>
               {/* Italic serif line — the amber accent */}
               <p
                 className="font-serif italic text-amber leading-[1.05] mt-2 mb-10"
-                style={{ fontSize: 'clamp(1.9rem, 4vw, 3.4rem)' }}
+                style={{ fontSize: 'clamp(1.5rem, 6vw, 3.4rem)' }}
               >
                 {t('headline_highlight')}.
               </p>

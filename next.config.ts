@@ -4,6 +4,10 @@ import createNextIntlPlugin from 'next-intl/plugin'
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    // Prevent parent-folder lockfiles from being treated as workspace root in monorepo-like folders.
+    root: process.cwd(),
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },

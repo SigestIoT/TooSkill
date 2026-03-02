@@ -132,65 +132,103 @@ export default async function CourseDetailPage({ params }: Props) {
           }}
         />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-28">
-          {/* Module + Level tags */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            <span
-              className="font-mono text-[0.58rem] tracking-[0.18em] uppercase px-2.5 py-1"
-              style={{
-                color: '#D4973A',
-                border: '1px solid rgba(212,151,58,0.30)',
-                background: 'rgba(212,151,58,0.07)',
-              }}
-            >
-              {tModules(c.module)}
-            </span>
-            <span
-              className="font-mono text-[0.58rem] tracking-[0.14em] uppercase px-2.5 py-1"
-              style={{
-                color: 'rgba(156,148,136,0.7)',
-                border: '1px solid rgba(156,148,136,0.20)',
-              }}
-            >
-              {tLevels(c.level)}
-            </span>
-          </div>
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className={`grid grid-cols-1 ${c.image_url ? 'lg:grid-cols-[1fr_440px]' : ''}`}>
 
-          <h1
-            className="font-display font-extrabold text-white leading-[0.94] tracking-[-0.02em] mb-5"
-            style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}
-          >
-            {title}
-          </h1>
+            {/* Left: text content */}
+            <div className="px-6 sm:px-10 lg:pl-16 lg:pr-12 py-24 sm:py-28">
+              {/* Module + Level tags */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span
+                  className="font-mono text-[0.58rem] tracking-[0.18em] uppercase px-2.5 py-1"
+                  style={{
+                    color: '#D4973A',
+                    border: '1px solid rgba(212,151,58,0.30)',
+                    background: 'rgba(212,151,58,0.07)',
+                  }}
+                >
+                  {tModules(c.module)}
+                </span>
+                <span
+                  className="font-mono text-[0.58rem] tracking-[0.14em] uppercase px-2.5 py-1"
+                  style={{
+                    color: 'rgba(156,148,136,0.7)',
+                    border: '1px solid rgba(156,148,136,0.20)',
+                  }}
+                >
+                  {tLevels(c.level)}
+                </span>
+              </div>
 
-          {/* Amber rule */}
-          <div
-            className="mb-5"
-            style={{
-              width: '3.5rem',
-              height: '1px',
-              background: 'linear-gradient(90deg, #D4973A, transparent)',
-            }}
-          />
-
-          <p
-            className="text-stone leading-relaxed max-w-2xl"
-            style={{ fontSize: 'clamp(0.85rem, 1.3vw, 0.97rem)' }}
-          >
-            {description}
-          </p>
-
-          {c.duration_hours && (
-            <div className="flex items-center gap-2 mt-6">
-              <Clock size={12} style={{ color: 'rgba(212,151,58,0.45)' }} />
-              <span
-                className="font-mono text-[0.6rem] tracking-[0.18em] uppercase"
-                style={{ color: 'rgba(212,151,58,0.45)' }}
+              <h1
+                className="font-display font-extrabold text-white leading-[0.94] tracking-[-0.02em] mb-5"
+                style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}
               >
-                {c.duration_hours}h — {t('duration')}
-              </span>
+                {title}
+              </h1>
+
+              {/* Amber rule */}
+              <div
+                className="mb-5"
+                style={{
+                  width: '3.5rem',
+                  height: '1px',
+                  background: 'linear-gradient(90deg, #D4973A, transparent)',
+                }}
+              />
+
+              <p
+                className="text-stone leading-relaxed max-w-2xl"
+                style={{ fontSize: 'clamp(0.85rem, 1.3vw, 0.97rem)' }}
+              >
+                {description}
+              </p>
+
+              {c.duration_hours && (
+                <div className="flex items-center gap-2 mt-6">
+                  <Clock size={12} style={{ color: 'rgba(212,151,58,0.45)' }} />
+                  <span
+                    className="font-mono text-[0.6rem] tracking-[0.18em] uppercase"
+                    style={{ color: 'rgba(212,151,58,0.45)' }}
+                  >
+                    {c.duration_hours}h — {t('duration')}
+                  </span>
+                </div>
+              )}
             </div>
-          )}
+
+            {/* Right: course image — desktop only */}
+            {c.image_url && (
+              <div className="hidden lg:block relative overflow-hidden" style={{ minHeight: '380px' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={c.image_url}
+                  alt={title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Left fade — blends into dark hero */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(90deg, #09080A 0%, rgba(9,8,10,0.3) 30%, transparent 60%)',
+                  }}
+                />
+                {/* Bottom fade — blends into body section */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(to bottom, transparent, rgba(9,8,10,0.6))',
+                  }}
+                />
+                {/* Subtle amber tint overlay */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ background: 'rgba(212,151,58,0.04)' }}
+                />
+              </div>
+            )}
+
+          </div>
         </div>
 
         {/* Amber rule bottom */}

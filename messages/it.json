@@ -186,5 +186,11 @@
     "base": "Base",
     "completa": "Completa",
     "personalizzata": "Personalizzata"
+  },
+  "cookie": {
+    "aria_label": "Informativa cookie",
+    "text": "Questo sito utilizza esclusivamente cookie tecnici necessari al suo funzionamento. Per maggiori informazioni consulta la nostra",
+    "privacy_link": "Privacy Policy",
+    "accept": "Ho capito"
   }
 }

@@ -27,7 +27,7 @@ export default function TrainingLevels() {
           <div>
             <h2
               className="font-display font-extrabold uppercase text-white leading-[0.88] tracking-tight mb-5"
-              style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)' }}
+              style={{ fontSize: 'clamp(2rem, 5vw, 2.8rem)' }}
             >
               {t('title')}
             </h2>
@@ -69,7 +69,7 @@ export default function TrainingLevels() {
               {/* Level name — the anchor */}
               <h3
                 className="relative font-display font-extrabold uppercase text-white tracking-tight leading-none shrink-0 group-hover:text-amber/90 transition-colors duration-300"
-                style={{ fontSize: 'clamp(1.4rem, 2.2vw, 1.9rem)', minWidth: '11rem' }}
+                style={{ fontSize: 'clamp(1.5rem, 3.5vw, 1.9rem)', minWidth: '11rem' }}
               >
                 {item.name}
               </h3>
