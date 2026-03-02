@@ -33,7 +33,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
   return (
     <span ref={ref} className="font-display font-extrabold tabular-nums leading-none amber-text-gradient"
-      style={{ fontSize: 'clamp(2.6rem, 5vw, 4.2rem)' }}
+      style={{ fontSize: 'clamp(2rem, 7vw, 4.2rem)' }}
     >
       {count}{suffix}
     </span>

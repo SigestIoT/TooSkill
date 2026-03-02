@@ -24,7 +24,7 @@ export default function HowItWorks() {
           <div>
             <h2
               className="font-display font-extrabold uppercase text-white leading-[0.88] tracking-tight mb-5"
-              style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)' }}
+              style={{ fontSize: 'clamp(2rem, 5vw, 2.8rem)' }}
             >
               {t('title')}
             </h2>
@@ -73,7 +73,7 @@ export default function HowItWorks() {
                 {/* Content */}
                 <h3
                   className="font-display font-extrabold uppercase text-white tracking-tight mb-4"
-                  style={{ fontSize: 'clamp(1.3rem, 2.2vw, 1.7rem)' }}
+                  style={{ fontSize: 'clamp(1.5rem, 3.5vw, 1.7rem)' }}
                 >
                   {step.title}
                 </h3>

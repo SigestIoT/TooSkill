@@ -6,6 +6,7 @@ import { routing } from '@/i18n/routing'
 import { jakarta, inter, instrumentSerif, dmMono } from '@/lib/fonts'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import CookieBanner from '@/components/layout/CookieBanner'
 import '../globals.css'
 
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? 'https://tooskill.it'
@@ -89,6 +90,7 @@ export default async function LocaleLayout({
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <CookieBanner />
         </NextIntlClientProvider>
       </body>
     </html>

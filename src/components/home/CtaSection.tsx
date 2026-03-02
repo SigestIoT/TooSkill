@@ -32,7 +32,7 @@ export default function CtaSection() {
             </span>
             <h2
               className="font-display font-extrabold uppercase text-white leading-[0.88] tracking-tight mb-6"
-              style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)' }}
+              style={{ fontSize: 'clamp(2rem, 5vw, 2.8rem)' }}
             >
               {t('title')}
             </h2>

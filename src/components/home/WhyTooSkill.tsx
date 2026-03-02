@@ -22,7 +22,7 @@ export default function WhyTooSkill() {
           <div>
             <h2
               className="font-display font-extrabold uppercase text-smoke leading-[0.88] tracking-tight mb-5"
-              style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)' }}
+              style={{ fontSize: 'clamp(2rem, 5vw, 2.8rem)' }}
             >
               {t('title')}
             </h2>

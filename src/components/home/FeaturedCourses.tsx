@@ -59,7 +59,7 @@ export default async function FeaturedCourses() {
             </div>
             <h2
               className="font-display font-extrabold leading-tight tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: '#09080A' }}
+              style={{ fontSize: 'clamp(1.8rem, 6vw, 3rem)', color: '#09080A' }}
             >
               {t('title')}
             </h2>
