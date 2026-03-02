@@ -6,7 +6,7 @@ import { verifyAdminSession } from './lib/auth/admin'
 const intlMiddleware = createIntlMiddleware(routing)
 const ADMIN_GUID = process.env.ADMIN_GUID
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Admin routes: auth guard
