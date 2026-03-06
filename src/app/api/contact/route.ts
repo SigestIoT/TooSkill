@@ -6,10 +6,45 @@ import {
   adminNotificationEmail,
 } from '@/lib/resend/templates'
 
+type TurnstileVerificationResponse = {
+  success: boolean
+}
+
+type ResendSendResponse = {
+  data: { id: string } | null
+  error: { message: string; name?: string } | null
+}
+
+async function verifyTurnstile(token: string, secret: string, remoteIp?: string | null) {
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+  })
+
+  if (remoteIp) {
+    body.set('remoteip', remoteIp)
+  }
+
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body,
+  })
+
+  if (!response.ok) {
+    return false
+  }
+
+  const result = (await response.json()) as TurnstileVerificationResponse
+  return result.success
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, company, phone, message, course_id, course_title, type, locale } = body
+    const { name, email, company, phone, message, course_id, course_title, type, locale, turnstileToken } = body
 
     // Basic validation
     if (!name || !email || !message) {
@@ -21,10 +56,32 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
     }
 
+    const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+    const turnstileSecretKey = process.env.TURNSTILE_SECRET_KEY
+    const turnstileConfigured =
+      Boolean(turnstileSiteKey) &&
+      Boolean(turnstileSecretKey) &&
+      turnstileSiteKey !== 'your_turnstile_site_key_here' &&
+      turnstileSecretKey !== 'your_turnstile_secret_key_here'
+
+    if (turnstileConfigured) {
+      if (typeof turnstileToken !== 'string' || !turnstileToken) {
+        return NextResponse.json({ error: 'Turnstile verification failed' }, { status: 400 })
+      }
+
+      const forwardedFor = request.headers.get('x-forwarded-for')
+      const remoteIp = forwardedFor?.split(',')[0]?.trim() ?? null
+      const isValidTurnstileToken = await verifyTurnstile(turnstileToken, turnstileSecretKey!, remoteIp)
+
+      if (!isValidTurnstileToken) {
+        return NextResponse.json({ error: 'Turnstile verification failed' }, { status: 400 })
+      }
+    }
+
     // Save to Supabase
     if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
       const supabase = createAdminClient()
-      await supabase.from('contact_requests').insert({
+      const { error: dbError } = await supabase.from('contact_requests').insert({
         name,
         email,
         company: company ?? null,
@@ -35,6 +92,11 @@ export async function POST(request: NextRequest) {
         type: type ?? 'general',
         locale: locale ?? 'it',
       })
+
+      if (dbError) {
+        console.error('[contact/route] Supabase insert failed', dbError)
+        return NextResponse.json({ error: 'Unable to save contact request' }, { status: 500 })
+      }
     }
 
     // Send emails via Resend
@@ -44,22 +106,43 @@ export async function POST(request: NextRequest) {
       const fromAddress = process.env.RESEND_FROM ?? 'TooSkill <noreply@tooskill.it>'
       const adminEmail = process.env.ADMIN_EMAIL ?? 'info@tooskill.it'
 
-      await Promise.all([
-        // Confirmation to user
+      const [confirmationResult, adminResult] = (await Promise.all([
         resend.emails.send({
           from: fromAddress,
           to: email,
           subject: confirmationSubject(locale),
           html: confirmationEmail(name, locale),
         }),
-        // Notification to admin
         resend.emails.send({
           from: fromAddress,
           to: adminEmail,
           subject: `Nuova richiesta da ${name}${course_title ? ` — ${course_title}` : ''}`,
+          replyTo: email,
           html: adminNotificationEmail({ name, email, company, phone, message, course_title, type }),
         }),
-      ])
+      ])) as [ResendSendResponse, ResendSendResponse]
+
+      const resendFailures = [
+        confirmationResult.error
+          ? {
+              emailType: 'confirmation',
+              recipient: email,
+              error: confirmationResult.error,
+            }
+          : null,
+        adminResult.error
+          ? {
+              emailType: 'admin_notification',
+              recipient: adminEmail,
+              error: adminResult.error,
+            }
+          : null,
+      ].filter(Boolean)
+
+      if (resendFailures.length > 0) {
+        console.error('[contact/route] Resend send failed', resendFailures)
+        return NextResponse.json({ error: 'Unable to send notification emails' }, { status: 502 })
+      }
     }
 
     return NextResponse.json({ ok: true })
