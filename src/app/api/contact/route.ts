@@ -100,50 +100,64 @@ export async function POST(request: NextRequest) {
     }
 
     // Send emails via Resend
-    if (process.env.RESEND_API_KEY) {
-      const { Resend } = await import('resend')
-      const resend = new Resend(process.env.RESEND_API_KEY)
-      const fromAddress = process.env.RESEND_FROM ?? 'TooSkill <noreply@tooskill.it>'
-      const adminEmail = process.env.ADMIN_EMAIL ?? 'info@tooskill.it'
-
-      const [confirmationResult, adminResult] = (await Promise.all([
-        resend.emails.send({
-          from: fromAddress,
-          to: email,
-          subject: confirmationSubject(locale),
-          html: confirmationEmail(name, locale),
-        }),
-        resend.emails.send({
-          from: fromAddress,
-          to: adminEmail,
-          subject: `Nuova richiesta da ${name}${course_title ? ` — ${course_title}` : ''}`,
-          replyTo: email,
-          html: adminNotificationEmail({ name, email, company, phone, message, course_title, type }),
-        }),
-      ])) as [ResendSendResponse, ResendSendResponse]
-
-      const resendFailures = [
-        confirmationResult.error
-          ? {
-              emailType: 'confirmation',
-              recipient: email,
-              error: confirmationResult.error,
-            }
-          : null,
-        adminResult.error
-          ? {
-              emailType: 'admin_notification',
-              recipient: adminEmail,
-              error: adminResult.error,
-            }
-          : null,
-      ].filter(Boolean)
-
-      if (resendFailures.length > 0) {
-        console.error('[contact/route] Resend send failed', resendFailures)
-        return NextResponse.json({ error: 'Unable to send notification emails' }, { status: 502 })
-      }
+    const resendApiKey = process.env.RESEND_API_KEY
+    console.info('[contact/route] email config check', {
+      hasResendApiKey: Boolean(resendApiKey),
+      hasResendFrom: Boolean(process.env.RESEND_FROM),
+      hasAdminEmail: Boolean(process.env.ADMIN_EMAIL),
+    })
+    if (!resendApiKey) {
+      console.error('[contact/route] Missing RESEND_API_KEY in runtime environment')
+      return NextResponse.json({ error: 'Email service is not configured' }, { status: 503 })
     }
+
+    const { Resend } = await import('resend')
+    const resend = new Resend(resendApiKey)
+    const fromAddress = process.env.RESEND_FROM ?? 'TooSkill <noreply@tooskill.it>'
+    const adminEmail = process.env.ADMIN_EMAIL ?? 'info@tooskill.it'
+
+    const [confirmationResult, adminResult] = (await Promise.all([
+      resend.emails.send({
+        from: fromAddress,
+        to: email,
+        subject: confirmationSubject(locale),
+        html: confirmationEmail(name, locale),
+      }),
+      resend.emails.send({
+        from: fromAddress,
+        to: adminEmail,
+        subject: `Nuova richiesta da ${name}${course_title ? ` — ${course_title}` : ''}`,
+        replyTo: email,
+        html: adminNotificationEmail({ name, email, company, phone, message, course_title, type }),
+      }),
+    ])) as [ResendSendResponse, ResendSendResponse]
+
+    const resendFailures = [
+      confirmationResult.error
+        ? {
+            emailType: 'confirmation',
+            recipient: email,
+            error: confirmationResult.error,
+          }
+        : null,
+      adminResult.error
+        ? {
+            emailType: 'admin_notification',
+            recipient: adminEmail,
+            error: adminResult.error,
+          }
+        : null,
+    ].filter(Boolean)
+
+    if (resendFailures.length > 0) {
+      console.error('[contact/route] Resend send failed', resendFailures)
+      return NextResponse.json({ error: 'Unable to send notification emails' }, { status: 502 })
+    }
+
+    console.info('[contact/route] Resend send success', {
+      confirmationId: confirmationResult.data?.id ?? null,
+      adminNotificationId: adminResult.data?.id ?? null,
+    })
 
     return NextResponse.json({ ok: true })
   } catch (err) {
