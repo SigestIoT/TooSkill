@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import Script from 'next/script'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Loader2 } from 'lucide-react'
@@ -9,6 +10,24 @@ interface Props {
   courseTitle?: string
   /** Forces all fields to a single column — use in narrow sidebars */
   singleColumn?: boolean
+}
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: string | HTMLElement,
+        options: {
+          sitekey: string
+          theme?: 'light' | 'dark' | 'auto'
+          callback?: (token: string) => void
+          'expired-callback'?: () => void
+          'error-callback'?: () => void
+        }
+      ) => string
+      reset: (widgetId?: string) => void
+    }
+  }
 }
 
 const inputBase: React.CSSProperties = {
@@ -49,6 +68,39 @@ export default function ContactForm({ courseId, courseTitle, singleColumn }: Pro
   const locale = useLocale()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [privacyChecked, setPrivacyChecked] = useState(false)
+  const [turnstileLoaded, setTurnstileLoaded] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null)
+  const widgetIdRef = useRef<string | null>(null)
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+  const turnstileEnabled =
+    Boolean(turnstileSiteKey) && turnstileSiteKey !== 'your_turnstile_site_key_here'
+
+  useEffect(() => {
+    if (!turnstileEnabled || !turnstileLoaded || !turnstileContainerRef.current || widgetIdRef.current) {
+      return
+    }
+
+    if (!window.turnstile) {
+      return
+    }
+
+    widgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+      sitekey: turnstileSiteKey!,
+      theme: 'dark',
+      callback: (token: string) => {
+        setTurnstileToken(token)
+        setStatus('idle')
+      },
+      'expired-callback': () => {
+        setTurnstileToken('')
+      },
+      'error-callback': () => {
+        setTurnstileToken('')
+        setStatus('error')
+      },
+    })
+  }, [turnstileEnabled, turnstileLoaded, turnstileSiteKey])
 
   function handleFocus(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) {
     e.currentTarget.style.borderColor = 'rgba(212,151,58,0.50)'
@@ -59,6 +111,11 @@ export default function ContactForm({ courseId, courseTitle, singleColumn }: Pro
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (turnstileEnabled && !turnstileToken) {
+      setStatus('error')
+      return
+    }
+
     setStatus('loading')
     const fd = new FormData(e.currentTarget)
     const body = {
@@ -71,6 +128,7 @@ export default function ContactForm({ courseId, courseTitle, singleColumn }: Pro
       course_title: courseTitle ?? null,
       type: courseId ? 'course_inquiry' : 'general',
       locale,
+      turnstileToken: turnstileEnabled ? turnstileToken : null,
     }
     try {
       const res = await fetch('/api/contact', {
@@ -82,6 +140,10 @@ export default function ContactForm({ courseId, courseTitle, singleColumn }: Pro
       setStatus('success')
     } catch {
       setStatus('error')
+      if (turnstileEnabled && window.turnstile && widgetIdRef.current) {
+        setTurnstileToken('')
+        window.turnstile.reset(widgetIdRef.current)
+      }
     }
   }
 
@@ -118,6 +180,14 @@ export default function ContactForm({ courseId, courseTitle, singleColumn }: Pro
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {turnstileEnabled && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          onLoad={() => setTurnstileLoaded(true)}
+        />
+      )}
+
       <div className={gridClass}>
         <Field id="name" label={t('name')} required>
           <input
@@ -230,6 +300,12 @@ export default function ContactForm({ courseId, courseTitle, singleColumn }: Pro
           </Link>
         </span>
       </label>
+
+      {turnstileEnabled && (
+        <div className="overflow-hidden" aria-live="polite">
+          <div ref={turnstileContainerRef} />
+        </div>
+      )}
 
       {status === 'error' && (
         <p className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-red-400/80">
